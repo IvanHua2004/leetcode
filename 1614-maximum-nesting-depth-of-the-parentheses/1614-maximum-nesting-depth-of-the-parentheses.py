@@ -11,8 +11,6 @@ class Solution:
             elif char == ")":
                 stack.pop()
                 count -= 1
-                if not stack:
-                    count = 0
             
         return max1
             
