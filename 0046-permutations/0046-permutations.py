@@ -16,5 +16,4 @@ class Solution:
             nums[i], nums[j] = nums[j], nums[i]
             nums[i+1:] = reversed(nums[i+1:])
             res.append(nums[:])
-
         return res
