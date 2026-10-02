@@ -6,7 +6,9 @@
 #         self.right = right
 class Solution:
     def zigzagLevelOrder(self, root: TreeNode | None) -> list[list[int]]:
-        if not root: return []
+        if not root:
+            return []
+        
         res, dq, reverse = [], deque([root]), False
 
         while dq:
