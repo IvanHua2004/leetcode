@@ -1,9 +1,9 @@
 class Solution:
     def removeStars(self, s: str) -> str:
-        ans=[]
-        for i in s:
-            if i=='*':
-                ans.pop()
+        res = []
+        for char in s:
+            if char != "*":
+                res.append(char)
             else:
-                ans+=[i]
-        return "".join(ans)
+                res.pop()
+        return "".join(res)
