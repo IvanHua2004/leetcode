@@ -1,8 +1,8 @@
 class Solution:
-    def finalPrices(self, A):
+    def finalPrices(self, prices: list[int]) -> list[int]:
         stack = []
-        for i, a in enumerate(A):
-            while stack and A[stack[-1]] >= a:
-                A[stack.pop()] -= a
+        for i, price in enumerate(prices):
+            while stack and prices[stack[-1]] >= price:
+                prices[stack.pop()] -= price
             stack.append(i)
-        return A
+        return prices 
