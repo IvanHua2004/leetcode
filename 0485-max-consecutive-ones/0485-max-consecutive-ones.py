@@ -5,7 +5,7 @@ class Solution:
         for i in range(len(nums)):
             if nums[i] == 1:
                 currentCount += 1
+                maximum = max(maximum, currentCount)
             else:
                 currentCount = 0
-            maximum = max(maximum, currentCount)
         return maximum
