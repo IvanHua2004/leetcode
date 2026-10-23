@@ -13,12 +13,13 @@ void printBar();
 FooBar* fooBarCreate(int n) {
     FooBar* obj = (FooBar*) malloc(sizeof(FooBar));
     obj->n = n;
-    sem_init(&obj->fooTurn, 0, 1);  // foo goes first
-    sem_init(&obj->barTurn, 0, 0);  // bar must wait
+    sem_init(&obj->fooTurn, 0, 1);
+    sem_init(&obj->barTurn, 0, 0);
     return obj;
 }
 
 void foo(FooBar* obj) {
+    
     for (int i = 0; i < obj->n; i++) {
         sem_wait(&obj->fooTurn);
         // printFoo() outputs "foo". Do not change or remove this line.
@@ -28,6 +29,7 @@ void foo(FooBar* obj) {
 }
 
 void bar(FooBar* obj) {
+    
     for (int i = 0; i < obj->n; i++) {
         sem_wait(&obj->barTurn);
         // printBar() outputs "bar". Do not change or remove this line.
@@ -37,7 +39,7 @@ void bar(FooBar* obj) {
 }
 
 void fooBarFree(FooBar* obj) {
-    sem_destroy(&obj->fooTurn);
     sem_destroy(&obj->barTurn);
+    sem_destroy(&obj->fooTurn);
     free(obj);
 }
