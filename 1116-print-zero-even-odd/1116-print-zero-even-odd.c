@@ -1,19 +1,18 @@
-#include <semaphore.h>
-
 void printNumber(int x);
+
 typedef struct {
     int n;
-    sem_t zeroTurn;
-    sem_t oddTurn;
-    sem_t evenTurn;
+    sem_t zero;
+    sem_t even;
+    sem_t odd;
 } ZeroEvenOdd;
 
 ZeroEvenOdd* zeroEvenOddCreate(int n) {
     ZeroEvenOdd* obj = (ZeroEvenOdd*) malloc(sizeof(ZeroEvenOdd));
     obj->n = n;
-    sem_init(&obj->zeroTurn, 0, 1);  // zero goes first
-    sem_init(&obj->oddTurn, 0, 0);
-    sem_init(&obj->evenTurn, 0, 0);
+    sem_init(&obj->zero, 0, 1);
+    sem_init(&obj->even, 0, 0);
+    sem_init(&obj->odd, 0, 0);
     return obj;
 }
 
@@ -22,34 +21,34 @@ ZeroEvenOdd* zeroEvenOddCreate(int n) {
 
 void zero(ZeroEvenOdd* obj) {
     for (int i = 1; i <= obj->n; i++) {
-        sem_wait(&obj->zeroTurn);
+        sem_wait(&obj->zero);
         printNumber(0);
-        if (i % 2 == 1)
-            sem_post(&obj->oddTurn);   // next number is odd
+        if (i % 2 == 0)
+            sem_post(&obj->even);
         else
-            sem_post(&obj->evenTurn);  // next number is even
+            sem_post(&obj->odd);
     }
 }
 
 void even(ZeroEvenOdd* obj) {
-    for (int i = 2; i <= obj->n; i += 2) {
-        sem_wait(&obj->evenTurn);
+    for (int i = 2; i <= obj->n; i+=2) {
+        sem_wait(&obj->even);
         printNumber(i);
-        sem_post(&obj->zeroTurn);
+        sem_post(&obj->zero);
     }
 }
 
 void odd(ZeroEvenOdd* obj) {
-    for (int i = 1; i <= obj->n; i += 2) {
-        sem_wait(&obj->oddTurn);
+    for (int i = 1; i <= obj->n; i+=2) {
+        sem_wait(&obj->odd);
         printNumber(i);
-        sem_post(&obj->zeroTurn);
+        sem_post(&obj->zero);
     }
 }
 
 void zeroEvenOddFree(ZeroEvenOdd* obj) {
-    sem_destroy(&obj->zeroTurn);
-    sem_destroy(&obj->oddTurn);
-    sem_destroy(&obj->evenTurn);
+    sem_destroy(&obj->zero);
+    sem_destroy(&obj->odd);
+    sem_destroy(&obj->even);
     free(obj);
 }
